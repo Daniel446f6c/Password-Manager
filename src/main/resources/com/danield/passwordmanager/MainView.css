@@ -1,0 +1,199 @@
+.root {
+    /*-fx-background-color: linear-gradient(rgba(0, 100, 255, 0.4), rgb(250, 0, 200, 0.4));*/
+    -fx-background-color: linear-gradient(rgba(0, 255, 255, 0.6), rgba(0, 0, 255, 0.6));
+}
+
+#top-login-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-login-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-login-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-new-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-new-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-new-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-save-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-save-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-save-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-close-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-close-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-close-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-quit-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-quit-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-quit-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-about-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-about-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-about-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+#top-theme-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#top-theme-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#top-theme-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+}
+
+.table-column {
+    -fx-background-color: linear-gradient(rgba(0, 255, 255, 0.6), rgba(0, 0, 255, 0.6));
+}
+
+.table-view {
+    -fx-background-color: linear-gradient(rgba(0, 255, 255, 0.6), rgba(0, 0, 255, 0.6));
+    
+}
+
+.table-row-cell:focused {
+    -fx-background-color: green;
+}
+
+#app-field {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-background-radius: 14px;
+}
+
+#username-field {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-background-radius: 14px;
+}
+
+#password-field {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-background-radius: 14px;
+}
+
+#generate-button {
+    -fx-font-family: "System";
+    -fx-font-size: 10px;
+    -fx-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 14px;
+}
+
+#generate-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#generate-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#add-button {
+    -fx-font-family: "System";
+    -fx-font-size: 16px;
+    -fx-text-fill: rgb(0, 238, 255, 0.8);
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-background-radius: 16px;
+}
+
+#add-button:hover {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}
+
+#add-button:focused {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.5), rgba(0, 0, 255, 0.5));
+    -fx-font-weight: bold;
+}

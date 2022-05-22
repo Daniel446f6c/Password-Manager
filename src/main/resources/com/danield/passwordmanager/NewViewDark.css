@@ -1,0 +1,164 @@
+.root {
+    /*-fx-background-color: linear-gradient(rgba(0, 100, 255, 0.4), rgb(250, 0, 200, 0.4));*/
+    -fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));
+}
+
+#top-login-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-login-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#top-login-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+}
+
+#top-new-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-save-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-close-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-quit-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-quit-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#top-quit-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+}
+
+#top-about-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-about-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#top-about-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+}
+
+#top-theme-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#top-theme-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#top-theme-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+}
+
+#header-label {
+    -fx-font-family: "Rage Italic";
+    -fx-font-size: 46px;
+    -fx-font-weight: bold;
+    -fx-text-fill: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.5) , 0,0,2,2 );
+}
+
+#file-location-field {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-prompt-text-fill: rgba(200, 200, 200, 1);
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-radius: 14px;
+}
+
+#password-field {
+    -fx-font-family: "System";
+    -fx-font-size: 14px;
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-prompt-text-fill: rgba(200, 200, 200, 1);
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-radius: 14px;
+}
+
+#browse-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#browse-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#browse-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#create-button {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#create-button:hover {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#create-button:focused {
+    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
+    -fx-font-weight: bold;
+}
+
+#info-label {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}

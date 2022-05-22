@@ -1,0 +1,191 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.danield</groupId>
+    <artifactId>PasswordManager</artifactId>
+    <version>1.0.0</version>
+    <name>Password Manager</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <javafx.version>11</javafx.version>
+        <mainClassName>com.danield.passwordmanager/com.danield.passwordmanager.App</mainClassName>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>${javafx.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <profiles>
+
+        <profile>
+            <id>android</id>
+            <properties>
+                <gluonfx.target>android</gluonfx.target>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>ios</id>
+            <properties>
+                <gluonfx.target>ios</gluonfx.target>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>windows</id>
+            <properties>
+                <jlink.target>windows</jlink.target>
+                <jpackage.icon>PasswordManagerIcon.ico</jpackage.icon>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>linux</id>
+            <properties>
+                <jlink.target>linux</jlink.target>
+                <maven.compiler.source>11</maven.compiler.source>
+                <maven.compiler.target>11</maven.compiler.target>
+                <jpackage.icon></jpackage.icon>
+            </properties>
+        </profile>
+
+
+    </profiles>
+
+    <build>
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+            </plugin>
+
+            <plugin> <!-- Building an Installer for Windows using jlink and jpackage -->
+                     <!-- Usage: mvn clean -Pwindows javafx:jlink jpackage:jpackage-->
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <configuration>
+                    <name>${project.name}</name>
+                    <appVersion>${project.version}</appVersion>
+                    <vendor>${project.groupId}</vendor>
+                    <module>${mainClassName}</module>
+                    <copyright>Daniel D</copyright>
+                    <icon>${jpackage.icon}</icon>
+                    <licenseFile>LICENSE</licenseFile>
+                    <destination>target/dist</destination>
+                    <runtimeImage>target/${project.name}-${project.version}-${jlink.target}</runtimeImage>
+                    <winDirChooser>true</winDirChooser> <!-- Choose Installation Location -->
+                    <winMenu>true</winMenu> <!-- Start Menu Entry -->
+                    <winMenuGroup>${project.name}</winMenuGroup>
+                    <winShortcut>true</winShortcut> <!-- Desktop Shortcut -->
+
+
+                    <linuxPackageName>${project.name}</linuxPackageName>
+                    <linuxShortcut>true</linuxShortcut>
+                    <linuxAppCategory>Utilities</linuxAppCategory>
+                    <linuxMenuGroup>Utilities</linuxMenuGroup>
+
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                </configuration>
+            </plugin>
+
+            <plugin> <!-- Building for Windows or Linux using jlink -->
+                     <!-- Usage: mvn clean -Pwindows javafx:jlink -->
+                     <!-- Usage: mvn clean -Plinux javafx:jlink -->
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.6</version>
+                <configuration>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                    <noHeaderFiles>true</noHeaderFiles>
+                    <noManPages>true</noManPages>
+                    <launcher>run</launcher>
+                    <jlinkImageName>${project.name}-${project.version}-${jlink.target}</jlinkImageName>
+                    <jlinkZipName>${project.name}-${project.version}-${jlink.target}</jlinkZipName>
+                    <mainClass>${mainClassName}</mainClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running on Windows or Linux -->
+                        <!-- Usage: mvn clean javafx:run -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>${mainClassName}</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+
+            <!-- !! THE PLUGINS BELOW ARE NOT ACTIVELY USED !! -->
+
+            <plugin> <!-- Plugin for Android , ONLY available on LINUX when https://docs.gluonhq.com/#platforms_linux is installed and GRAALVM_HOME is set.-->
+                <groupId>com.gluonhq</groupId>
+                <artifactId>client-maven-plugin</artifactId>
+                <version>0.1.31</version>
+                <configuration>
+                    <target>${gluonfx.target}</target>
+                    <mainClass>${mainClassName}</mainClass>
+                </configuration>
+            </plugin>
+
+            <plugin> <!-- Plugin for Android , ONLY available on LINUX when https://docs.gluonhq.com/#platforms_linux is installed and GRAALVM_HOME is set.-->
+                     <!-- 
+                          Usage: mvn clean -Pandroid gluonfx:build    (This goal simply combines gluonfx:compile and gluonfx:link)
+                                 mvn -Pandroid gluonfx:package        (Packages the executable or shared library into a target specific package that includes all the necessary dependencies.)
+                                 mvn -Pandroid gluonfx:install        (Installs the package on the host system or attached device.)
+                                 mvn -Pandroid gluonfx:nativerun      (Runs either the executable generated by gluonfx:link on the host system
+                                                             or runs the application that was installed on the connected device (iOS, Android or Linux-AARch64).)
+                     -->
+                     <!-- 
+                          Building on Windows using WSL2(default is ubuntu terminal) and GraalVM is possible.
+                          1) Open ubuntu
+                          2) apt-get java11
+                          3) vim /etc/profile
+                          4) add JAVA_HOME and GRAALVM_HOME
+                          But unpractical because WSL2 doesn't support usb-passthrough which means one can't gluonfx:install & gluonfx:nativerun
+                     -->
+                <groupId>com.gluonhq</groupId>
+                <artifactId>gluonfx-maven-plugin</artifactId>
+                <version>1.0.4</version>
+                <configuration>
+                    <target>${gluonfx.target}</target>
+                    <mainClass>${mainClassName}</mainClass>
+                    <reflectionList>
+                        <list>javafx.scene.paint.LinearGradient</list>
+                        <list>javafx.scene.paint.Stop</list>
+                        <list>javafx.scene.paint.Color</list>
+                        <list>javafx.fxml.FXMLLoader</list>
+                        <list>javafx.scene.control.TextField</list>
+                        <list>com.danield.passwordmanager.LoginController</list>
+                        <list>com.danield.passwordmanager.NewController</list>
+                        <list>com.danield.passwordmanager.MainController</list>
+                    </reflectionList>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+</project>
