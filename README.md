@@ -7,19 +7,19 @@ Password Manager is a Standalone JavaFX Application build using Maven 3.8.1 .</b
 
 ## <b>Getting Started</b>
 
-On WINDOWS using Installer <b>(recommended)</b>
+### <b>On WINDOWS using Installer (recommended)</b>
 
 1. Download the latest installer "Password Manager-x.x.x.exe"
 2. Double-click it and follow the instructions
 
-On WINDOWS without Installer
+### <b>On WINDOWS without Installer</b>
 
 1. Download the lastest zip archive "Password Manager-x.x.x-windows.zip"
 2. Unzip "Password-Manager-x.x.x-windows.zip"
 3. Navigate to the "bin" directory
 4. Double-click "run.bat"
 
-On LINUX without Installer
+### <b>On LINUX without Installer</b>
 
 1. Download the latest zip archive "Password Manager-x.x.x-linux.zip"
 2. Unzip "Password-Manager-x.x.x-linux.zip"
@@ -30,10 +30,32 @@ On LINUX without Installer
 
 * JavaFX 11
 
-* <b>Maven Plugins:</b></br>
+* Maven Plugins:</br>
     * maven-compiler-plugin</br>
     * jpackage-maven-plugin</br>
     * javafx-maven-plugin</br>
+
+## <b>How to build</b>
+
+### <b>Windows Installer</b>
+
+````
+mvn clean -Pwindows javafx:jlink jpackage:jpackage
+````
+Output: "Password Manager/target/dist/Password Manager-x.x.x.exe"
+
+### <b>Windows Portable Zip Archive</b>
+````
+mvn clean -Pwindows javafx:jlink
+````
+Output: "Password Manager/target/Password Manager-x.x.x-windows.exe"
+
+### <b>Linux Portable Zip Archive</b>
+````
+mvn clean -Plinux javafx:jlink
+````
+Output: "Password Manager/target/Password Manager-x.x.x-linux.exe"
+
 
 ## <b>Help</b>
 
