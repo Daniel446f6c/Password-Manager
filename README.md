@@ -28,17 +28,22 @@ Password Manager is a Standalone JavaFX Application build using Maven 3.8.1 .</b
 
 ## <b>Dependencies</b>
 
+* Java 17
+
 * JavaFX 11
 
 * Maven Plugins:</br>
     * maven-compiler-plugin</br>
     * jpackage-maven-plugin</br>
     * javafx-maven-plugin</br>
+    </br>
+* WiX 3.0 or greater (requiered by jpackage)
 
 ## <b>How to build</b>
 
-### <b>Windows Installer</b>
+<b>IMPORTANT:</b> to build from source you need to install Java 17 and WiX 3 on your machine, otherwise building will fail.
 
+### <b>Windows Installer</b>
 ````
 mvn clean -Pwindows javafx:jlink jpackage:jpackage
 ````
@@ -55,7 +60,6 @@ Output: "Password Manager/target/Password Manager-x.x.x-windows.exe"
 mvn clean -Plinux javafx:jlink
 ````
 Output: "Password Manager/target/Password Manager-x.x.x-linux.exe"
-
 
 ## <b>Help</b>
 
