@@ -15,7 +15,7 @@ public class App extends Application {
     public static final String TITLE = "Password Manager";
     public static final double MIN_HEIGHT = 450.0;
     public static final double MIN_WIDTH = 475.0;
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.1.0";
 
     @Override
     public void start(Stage stage) throws Exception {

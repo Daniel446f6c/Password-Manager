@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -12,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350.0" prefWidth="300.0" stylesheets="@LoginView.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danield.passwordmanager.LoginController">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="475.0" stylesheets="@LoginView.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danield.passwordmanager.LoginController">
    <children>
       <HBox alignment="CENTER" spacing="5.0">
          <children>
@@ -58,6 +59,11 @@
             </TextField>
             <HBox alignment="TOP_RIGHT">
                <children>
+                  <ComboBox id="open-recent-combobox" fx:id="cmbxOpenRecent" prefWidth="320.0" focusTraversable="false" promptText="Open Recent ..." visibleRowCount="6">
+                     <HBox.margin>
+                        <Insets bottom="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </ComboBox>
                   <Button id="browse-button" fx:id="btnBrowse" alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#onBrowse" text="Browse ...">
                      <HBox.margin>
                         <Insets bottom="5.0" top="5.0" />

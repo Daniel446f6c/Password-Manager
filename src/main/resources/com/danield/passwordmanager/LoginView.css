@@ -121,6 +121,15 @@
     -fx-background-radius: 14px;
 }
 
+#open-recent-combobox {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
+    -fx-text-fill: rgba(0, 238, 255, 0.8); /* ?? doesn't do anything */
+    -fx-prompt-text-fill: rgba(0, 238, 255, 0.8); /* ?? doesn't do anything */
+    -fx-background-radius: 14px;
+}
+
 #browse-button {
     -fx-font-family: "System";
     -fx-font-size: 12px;

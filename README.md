@@ -30,7 +30,7 @@ Password Manager is a Standalone JavaFX Application build using Maven 3.8.1 .</b
 
 * Java 17
 
-* JavaFX 11
+* JavaFX 17
 
 * Maven Plugins:</br>
     * maven-compiler-plugin</br>
@@ -71,6 +71,11 @@ Daniel D
 [@Github](https://github.com/Daniel446f6c/)
 
 ## <b>Version History</b>
+
+* 1.1.0
+    * Added "Open Recent" Control
+    * Some Minor Cosmetic Changes
+<br><br>
 
 * 1.0.0
     * Initial Release

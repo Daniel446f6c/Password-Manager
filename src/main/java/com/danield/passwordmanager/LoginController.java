@@ -1,21 +1,29 @@
 package com.danield.passwordmanager;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Arrays;
+import java.util.ResourceBundle;
 
 import com.danield.protector.SHA;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -24,13 +32,63 @@ import javafx.stage.FileChooser.ExtensionFilter;
  * The {@code LoginController} class provides the logic behind the LoginView.fxml View.
  * @author Daniel D
  */
-public class LoginController {
+public class LoginController implements Initializable {
     
     @FXML private TextField txtFldFilePath;
     @FXML private PasswordField pwFldMasterPassword;
     @FXML private Label lblInfoText;
     @FXML private Button btnBrowse;
     @FXML private Button btnLogin;
+    @FXML private ComboBox<String> cmbxOpenRecent;
+
+    /**
+     * 1. Set Event Handler <p>
+     * 2. Add Listener <p>
+     * 3. Read the recent filepaths from file into {@link RecentFilePaths} <p>
+     * 4. Populate {@code ComboBox} RecentFiles
+     * @param location : can be ignored
+     * @param resources : can be ignored
+     */
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        // unfocus focused control items
+        btnLogin.getParent().getParent().getParent().setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                btnLogin.getParent().requestFocus();
+            }
+        });
+
+        cmbxOpenRecent.getItems().addAll(RecentFilePaths.readFromFile());
+        cmbxOpenRecent.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> selected, String oldVal, String newVal) {
+                
+                if (selected.getValue() == null) { return; }
+                File file = new File(selected.getValue());
+                if (file.exists()) {
+                    txtFldFilePath.setText(selected.getValue());
+                    txtFldFilePath.setBorder(CustomBorder.NONE.getBorder());
+                    infoText("", Color.BLACK);
+                    pwFldMasterPassword.requestFocus();
+                }
+                else {
+                    int index = cmbxOpenRecent.getSelectionModel().getSelectedIndex();
+                    cmbxOpenRecent.getSelectionModel().selectedItemProperty().removeListener(this);
+                    RecentFilePaths.removeAt(index);
+                    cmbxOpenRecent.getItems().remove(index);
+                    cmbxOpenRecent.getSelectionModel().clearSelection();
+                    cmbxOpenRecent.getSelectionModel().selectedItemProperty().addListener(this);
+                    txtFldFilePath.setText("");
+                    infoText("FILE NOT FOUND.", Color.RED);
+                    btnBrowse.requestFocus();
+                }
+
+            }
+        });
+        
+    }
 
     /**
      * Display information, errors, warnings to the user.
@@ -56,12 +114,8 @@ public class LoginController {
 
         byte[] hash = SHA.SHA256(pwFldMasterPassword.getText().getBytes());
 
-        if (Arrays.equals(storedHash, hash)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        if (Arrays.equals(storedHash, hash)) { return true; }
+        else { return false; }
 
     }
 
@@ -101,7 +155,8 @@ public class LoginController {
             DataBase.setFilePath(txtFldFilePath.getText());
             if (validatePassword()) {
                 DataBase.setKey(pwFldMasterPassword.getText());
-                pwFldMasterPassword.setBorder(CustomBorder.NONE.getBorder());
+                RecentFilePaths.addAt(0, txtFldFilePath.getText());
+                RecentFilePaths.writeToFile();
                 ViewSwitcher.switchTo(View.MAIN);
                 if (ThemeSwitcher.getCurrentTheme() == Theme.LOGIN_DEFAULT) {
                     ThemeSwitcher.switchTo(Theme.MAIN_DEFAULT);
@@ -125,6 +180,7 @@ public class LoginController {
      * @param event : the event
      */
     public void onNew(ActionEvent event) {
+        RecentFilePaths.writeToFile();
         ViewSwitcher.switchTo(View.NEW);
         if (ThemeSwitcher.getCurrentTheme() == Theme.LOGIN_DEFAULT) {
             ThemeSwitcher.switchTo(Theme.NEW_DEFAULT);
@@ -141,6 +197,7 @@ public class LoginController {
      * @param event : the event
      */
     public void onQuit(ActionEvent event) {
+        RecentFilePaths.writeToFile();
         Platform.exit();
     }
 
@@ -155,7 +212,7 @@ public class LoginController {
         //TODO method implementation.
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Password Manager - About");
+        alert.setTitle(String.format("%s - About", App.TITLE));
         alert.setResizable(true);
         alert.setContentText(String.format("%s, %s, %s, %s", System.getProperty("os.name"),
                                                              System.getProperty("java.vendor.url"),
@@ -194,7 +251,7 @@ public class LoginController {
      * @param event : the event
      */
     public void onBrowse(ActionEvent event) {
-        
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open File");
         fileChooser.getExtensionFilters().addAll(
@@ -206,6 +263,7 @@ public class LoginController {
         if (selectedFile != null) {
             txtFldFilePath.setText(selectedFile.getAbsolutePath());
             txtFldFilePath.setBorder(CustomBorder.NONE.getBorder());
+            cmbxOpenRecent.getSelectionModel().clearSelection();
             infoText("", Color.BLACK);
             pwFldMasterPassword.requestFocus();
         }
