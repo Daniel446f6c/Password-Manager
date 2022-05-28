@@ -97,7 +97,7 @@
 
 #header-label {
     -fx-font-family: "Rage Italic";
-    -fx-font-size: 46px;
+    -fx-font-size: 56px;
     -fx-font-weight: bold;
     -fx-text-fill: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
     -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.5) , 0,0,2,2 );
@@ -117,6 +117,7 @@
     -fx-font-size: 14px;
     -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.5), rgba(180, 0, 120, 0.5));
     -fx-prompt-text-fill: rgba(0, 238, 255, 0.8);
+    -fx-text-fill: rgba(0, 238, 255, 0.8);
     -fx-background-radius: 14px;
 }
 
