@@ -1,6 +1,5 @@
 .root {
-    /*-fx-background-color: linear-gradient(rgba(0, 100, 255, 0.4), rgb(250, 0, 200, 0.4));*/
-    -fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));
+    -fx-background-color: rgba(50, 50, 50, 1);
 }
 
 #top-login-button {
@@ -123,16 +122,28 @@
 }
 
 .table-column {
-    -fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));
-    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-text-fill: rgba(210, 210, 210, 1);
 }
 
 .table-view {
-    -fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));
+    /*-fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));*/
+    -fx-background-color: transparent;
+}
+
+.table-row-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(100, 100, 100, 0.8);
+}
+
+.table-row-cell:hover {
+    -fx-border-color: rgba(180, 180, 180, 1);
+    -fx-background-color: rgba(30, 30, 30, 1);
 }
 
 .table-row-cell:focused {
-    -fx-background-color: lawngreen;
+    -fx-font-weight: bold;
+    -fx-border-color: rgba(180, 180, 180, 1);
+    -fx-background-color: rgba(30, 30, 30, 1);
 }
 
 #app-field {

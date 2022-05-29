@@ -1,6 +1,5 @@
 .root {
-    /*-fx-background-color: linear-gradient(rgba(0, 100, 255, 0.4), rgb(250, 0, 200, 0.4));*/
-    -fx-background-color: linear-gradient(rgba(15, 15, 15, 0.8), rgba(10, 10, 10, 1));
+    -fx-background-color: rgba(50, 50, 50, 1);
 }
 
 #top-login-button {
@@ -97,7 +96,7 @@
 
 #header-label {
     -fx-font-family: "Rage Italic";
-    -fx-font-size: 56px;
+    -fx-font-size: 64px;
     -fx-font-weight: bold;
     -fx-text-fill: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
     -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.5) , 0,0,2,2 );
@@ -125,9 +124,24 @@
     -fx-font-family: "System";
     -fx-font-size: 12px;
     -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-text-fill: rgba(200, 200, 200, 1); /* ?? doesn't do anything */
-    -fx-prompt-text-fill: rgba(200, 200, 200, 1); /* ?? doesn't do anything */
     -fx-background-radius: 14px;
+}
+
+#open-recent-combobox .list-view {
+    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
+    -fx-background-radius: 14px;
+}
+
+#open-recent-combobox .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: rgba(200, 200, 200, 1);
+    -fx-background-radius: 14px;
+}
+
+#open-recent-combobox .list-cell:hover {
+    -fx-font-weight: bold;
+    -fx-border-color:rgba(200, 200, 200, 1);
+    -fx-border-radius: 14px;
 }
 
 #browse-button {
