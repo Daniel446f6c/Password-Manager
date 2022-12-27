@@ -65,7 +65,6 @@
             </properties>
         </profile>
 
-
     </profiles>
 
     <build>
@@ -81,7 +80,7 @@
                      <!-- Usage: mvn clean -Pwindows javafx:jlink jpackage:jpackage-->
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
-                <version>1.5.2</version>
+                <version>1.6.0</version>
                 <configuration>
                     <name>${project.name}</name>
                     <appVersion>${project.version}</appVersion>
