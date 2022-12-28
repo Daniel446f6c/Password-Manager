@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.5" stylesheets="@MainView.css" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danield.passwordmanager.MainController">
+<SplitPane dividerPositions="0.5" stylesheets="@MainView.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.danield.passwordmanager.MainController">
    <items>
       <VBox>
          <children>
