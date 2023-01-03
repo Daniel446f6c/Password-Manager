@@ -2,6 +2,43 @@
     -fx-background-color: rgba(50, 50, 50, 1);
 }
 
+.scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar > .thumb {
+    -fx-background-color: rgba(70, 70, 70, 1);
+    -fx-padding: 0.5em;
+}
+
+.scroll-bar > .thumb:hover {
+    -fx-background-color: rgba(85, 85, 85, 1);
+}
+
+.scroll-bar > .thumb:pressed {
+    -fx-background-color: rgba(105, 105, 105, 1);
+}
+
+.scroll-bar > .increment-button,
+.scroll-bar > .decrement-button {
+    -fx-background-color:transparent;
+}
+
+.scroll-bar > .increment-button > .increment-arrow,
+.scroll-bar > .decrement-button > .decrement-arrow {
+    -fx-background-color: rgba(30, 30, 30, 1);
+}
+
+.scroll-bar > .increment-button:hover > .increment-arrow,
+.scroll-bar > .decrement-button:hover > .decrement-arrow {
+    -fx-background-color: rgba(85, 85, 85, 1);
+}
+
+.scroll-bar > .increment-button:pressed > .increment-arrow,
+.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+    -fx-background-color: rgba(120, 120, 120, 1);
+}
+
 #top-login-button {
     -fx-font-family: "System";
     -fx-font-size: 12px;
