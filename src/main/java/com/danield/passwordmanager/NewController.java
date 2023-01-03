@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.danield.protector.SHA;
+import com.danield.util.OSValidator;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -202,7 +203,8 @@ public class NewController {
         
         File file = fileChooser.showSaveDialog(txtFldFilePath.getScene().getWindow());
         if (file != null) {
-            txtFldFilePath.setText(file.getAbsolutePath());
+            if (OSValidator.isWindows()) { txtFldFilePath.setText(file.getAbsolutePath()); }
+            else if (OSValidator.isUnix()) { txtFldFilePath.setText(String.format("%s.protected", file.getAbsolutePath())); }
             txtFldFilePath.setBorder(CustomBorder.NONE.getBorder());
             infoText("", Color.BLACK);
             pwFldMasterPassword.requestFocus();
