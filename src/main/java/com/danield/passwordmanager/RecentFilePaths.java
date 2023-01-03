@@ -20,10 +20,8 @@ public class RecentFilePaths {
     private static final String FILE_NAME = "recent_filepaths";
     private static final String DIR_PATH_WINDOWS = String.format("%s\\AppData\\Local\\%s", System.getProperty("user.home"), App.TITLE);
     private static final String FILE_PATH_WINDOWS = String.format("%s\\%s", DIR_PATH_WINDOWS, FILE_NAME);
-    // TODO Linux Directory Path
-    // TODO Linux File Path
-    private static final String DIR_PATH_LINUX = "";
-    private static final String FILE_PATH_LINUX = "";
+    private static final String DIR_PATH_UNIX = String.format("%s/%s", System.getProperty("user.home"), App.TITLE);
+    private static final String FILE_PATH_UNIX = String.format("%s/%s", DIR_PATH_UNIX, FILE_NAME);
     private static ArrayList<String> recentFilePaths = new ArrayList<String>();
 
     private RecentFilePaths() {} // we don't want this class to be instantiated.
@@ -58,8 +56,8 @@ public class RecentFilePaths {
             file = new File(FILE_PATH_WINDOWS);
         }
         else if (OSValidator.isUnix()) {
-            dir = new File(DIR_PATH_LINUX);
-            file = new File(FILE_PATH_LINUX);
+            dir = new File(DIR_PATH_UNIX);
+            file = new File(FILE_PATH_UNIX);
         }
         
         if (dir.getName().equals("") || file.getName().equals("")) { return recentFilePaths; }
@@ -91,7 +89,7 @@ public class RecentFilePaths {
         File file = new File("");
 
         if (OSValidator.isWindows())   { file = new File(FILE_PATH_WINDOWS); }
-        else if (OSValidator.isUnix()) { file = new File(FILE_PATH_LINUX); }
+        else if (OSValidator.isUnix()) { file = new File(FILE_PATH_UNIX); }
 
         try (PrintWriter printWriter = new PrintWriter(file)) {
             for (String filePath : recentFilePaths) {
