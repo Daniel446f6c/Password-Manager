@@ -26,7 +26,7 @@ Password Manager is a Standalone JavaFX Application build using Maven 3.8.1 .</b
 3. Navigate to the "bin" directory
 4. Open bash and type "./run"
 
-## <b>Dependencies</b>
+## <b>Build Dependencies</b>
 
 * Java 17
 
