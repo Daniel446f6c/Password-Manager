@@ -53,6 +53,22 @@
                 <jlink.target>windows</jlink.target>
                 <jpackage.icon>icons/PasswordManagerIcon.ico</jpackage.icon>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <version>1.6.4</version>
+
+                        <configuration>
+                            <winDirChooser>true</winDirChooser> <!-- Choose Installation Location -->
+                            <winMenu>true</winMenu> <!-- Create Start Menu Entry -->
+                            <winMenuGroup>${project.name}</winMenuGroup> <!-- Start Menu Entry Name -->
+                            <winShortcut>true</winShortcut> <!-- Create Desktop Shortcut -->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
         <profile>
@@ -60,8 +76,23 @@
             <properties>
                 <jlink.target>linux</jlink.target>
                 <jpackage.icon>icons/PasswordManagerIcon.png</jpackage.icon>
-                <package.name>password-manager</package.name>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <version>1.6.4</version>
+
+                        <configuration>
+                            <linuxPackageName>password-manager</linuxPackageName>
+                            <linuxShortcut>true</linuxShortcut>
+                            <linuxAppCategory>Utility</linuxAppCategory>
+                            <linuxMenuGroup>Utility</linuxMenuGroup>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
 
     </profiles>
@@ -81,6 +112,8 @@
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
                 <version>1.6.4</version>
+
+                <!-- Common part of the configuration -->
                 <configuration>
                     <name>${project.name}</name>
                     <appVersion>${project.version}</appVersion>
@@ -91,16 +124,7 @@
                     <licenseFile>LICENSE</licenseFile>
                     <destination>target/dist</destination>
                     <runtimeImage>target/${project.name}-${project.version}-${jlink.target}</runtimeImage>
-                    <winDirChooser>true</winDirChooser> <!-- Choose Installation Location -->
-                    <winMenu>true</winMenu> <!-- Start Menu Entry -->
-                    <winMenuGroup>${project.name}</winMenuGroup>
-                    <winShortcut>true</winShortcut> <!-- Desktop Shortcut -->
-
-                    <linuxPackageName>${package.name}</linuxPackageName>
-                    <linuxShortcut>true</linuxShortcut>
-                    <linuxAppCategory>Utilities</linuxAppCategory>
-                    <linuxMenuGroup>Utilities</linuxMenuGroup>
-
+                    
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
                     </javaOptions>
