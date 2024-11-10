@@ -15,7 +15,7 @@ public class App extends Application {
     public static final String TITLE = "Password Manager";
     public static final double MIN_HEIGHT = 450.0;
     public static final double MIN_WIDTH = 475.0;
-    public static final String VERSION = "1.1.0";
+    public static final String VERSION = "1.2.0";
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -26,7 +26,7 @@ public class App extends Application {
         ViewSwitcher.switchTo(View.LOGIN);
 
         ThemeSwitcher.setScene(scene);
-        ThemeSwitcher.switchTo(Theme.LOGIN_DEFAULT);
+        ThemeSwitcher.switchTo(Theme.LOGIN_DARK);
 
         stage.getIcons().add(new Image(App.class.getResourceAsStream("PasswordManagerIcon.png")));
         stage.setTitle(String.format("%s %s", TITLE, VERSION));
