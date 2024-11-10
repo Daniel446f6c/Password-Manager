@@ -51,7 +51,7 @@
             <id>windows</id>
             <properties>
                 <jlink.target>windows</jlink.target>
-                <jpackage.icon>PasswordManagerIcon.ico</jpackage.icon>
+                <jpackage.icon>icons/PasswordManagerIcon.ico</jpackage.icon>
             </properties>
         </profile>
 
@@ -59,7 +59,7 @@
             <id>linux</id>
             <properties>
                 <jlink.target>linux</jlink.target>
-                <jpackage.icon></jpackage.icon>
+                <jpackage.icon>icons/PasswordManagerIcon.png</jpackage.icon>
             </properties>
         </profile>
 
@@ -75,7 +75,7 @@
             </plugin>
 
             <plugin> <!-- Building an Installer for Windows using jlink and jpackage -->
-                     <!-- Usage: mvn clean -Pwindows javafx:jlink jpackage:jpackage-->
+                     <!-- Usage: mvn clean -Pwindows javafx:jlink jpackage:jpackage -->
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
                 <version>1.6.4</version>
