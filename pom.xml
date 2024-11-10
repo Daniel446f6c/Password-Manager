@@ -60,6 +60,7 @@
             <properties>
                 <jlink.target>linux</jlink.target>
                 <jpackage.icon>icons/PasswordManagerIcon.png</jpackage.icon>
+                <package.name>password-manager</package.name>
             </properties>
         </profile>
 
@@ -74,8 +75,9 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <plugin> <!-- Building an Installer for Windows using jlink and jpackage -->
+            <plugin> <!-- Building an Installer for Windows or Linux using jlink and jpackage -->
                      <!-- Usage: mvn clean -Pwindows javafx:jlink jpackage:jpackage -->
+                     <!-- Usage: mvn clean -Plinux javafx:jlink jpackage:jpackage -->
                 <groupId>org.panteleyev</groupId>
                 <artifactId>jpackage-maven-plugin</artifactId>
                 <version>1.6.4</version>
@@ -94,8 +96,7 @@
                     <winMenuGroup>${project.name}</winMenuGroup>
                     <winShortcut>true</winShortcut> <!-- Desktop Shortcut -->
 
-
-                    <linuxPackageName>${project.name}</linuxPackageName>
+                    <linuxPackageName>${package.name}</linuxPackageName>
                     <linuxShortcut>true</linuxShortcut>
                     <linuxAppCategory>Utilities</linuxAppCategory>
                     <linuxMenuGroup>Utilities</linuxMenuGroup>
