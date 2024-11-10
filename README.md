@@ -3,7 +3,7 @@
 ## <b>Description</b>
 
 Securely store and manage your passwords local on your device.</br>
-Password Manager is a Standalone JavaFX Application build using Maven 3.8.1 .</br>
+Password Manager is a Standalone JavaFX Application build using Maven 3.9.9 .</br>
 
 ## <b>Getting Started</b>
 
