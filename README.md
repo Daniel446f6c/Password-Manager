@@ -34,17 +34,15 @@ Password Manager is a Standalone JavaFX Application build using Maven 3.9.9 .</b
 ## <b>Build Dependencies</b>
 
 * Java 17
-
-* JavaFX 17
+    * JavaFX 17
 
 * Maven 3.9.7 or greater
+    * Maven Plugins:</br>
+        * maven-compiler-plugin</br>
+        * jpackage-maven-plugin</br>
+        * javafx-maven-plugin</br>
 
-* Maven Plugins:</br>
-    * maven-compiler-plugin</br>
-    * jpackage-maven-plugin</br>
-    * javafx-maven-plugin</br>
-    </br>
-* WiX 3.0 or greater (requiered by jpackage on windows)
+* WiX 3.0 or greater (requiered by jpackage)
 
 * fakeroot (requiered by jpackage on ubuntu/debian linux)
 
