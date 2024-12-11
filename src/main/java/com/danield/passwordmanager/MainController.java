@@ -14,6 +14,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -37,6 +39,8 @@ public class MainController implements Initializable {
     @FXML private TextField txtFldUsername;
     @FXML private TextField txtFldPassword;
     @FXML private Button btnAdd;
+    @FXML private Slider sldrPwdLength;
+    @FXML private Label lblPwdLength;
 
     private final PwGen passwordGenerator = new PwGen();
     private boolean hasRecentlyChanged = false;
@@ -44,13 +48,15 @@ public class MainController implements Initializable {
     /**
      * 1) Create the cells. <p>
      * 2) Read the data from file into {@link DataBase}. <p>
-     * 3) Populate the cells with the data.
+     * 3) Populate the cells with the data. <p>
+     * 4) Password length slider's change listener.
      * @param location : can be ignored
      * @param resources : can be ignored
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        
+        // 1)
         tblColApplication.setCellFactory(TextFieldTableCell.<UserCredentials>forTableColumn());
         tblColApplication.setCellValueFactory(new PropertyValueFactory<UserCredentials, String>("application"));
         
@@ -59,10 +65,17 @@ public class MainController implements Initializable {
         
         tblColPassword.setCellFactory(TextFieldTableCell.<UserCredentials>forTableColumn());
         tblColPassword.setCellValueFactory(new PropertyValueFactory<UserCredentials, String>("password"));
-
+        
+        // 2)
         DataBase.readEntrysFromFile();
-
+        
+        // 3)
         tblViewDataEntrys.getItems().addAll(DataBase.getEntrys());
+
+        // 4)
+        sldrPwdLength.valueProperty().addListener( (observable, oldValue, newValue) -> {
+            lblPwdLength.setText(String.valueOf(newValue.intValue()));
+        });
 
     }
 
@@ -211,11 +224,11 @@ public class MainController implements Initializable {
     /**
      * Event handler bind to the Generate Button's {@code onAction} event.
      * <p>
-     * Lets the user generate a password.
+     * Lets the user generate a password. Length is selected via slider. 
      * @param event : the event
      */
     public void onGenerate(ActionEvent event) {
-        txtFldPassword.setText(passwordGenerator.generate());
+        txtFldPassword.setText(passwordGenerator.generate((int)sldrPwdLength.getValue()));
     }
 
     /**

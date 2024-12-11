@@ -233,6 +233,24 @@
     -fx-background-radius: 14px;
 }
 
+#pwd-length-label {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
+}
+
+.slider .track {
+    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
+}
+
+.slider .thumb {
+    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.8), rgba(0, 0, 255, 0.8));
+}
+
+.slider .thumb:hover {
+    -fx-background-color: linear-gradient(rgba(210, 0, 150, 0.8), rgba(120, 120, 255, 0.8));
+}
+
 #generate-button {
     -fx-font-family: "System";
     -fx-font-size: 10px;
