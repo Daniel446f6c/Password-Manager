@@ -75,6 +75,7 @@ public class MainController implements Initializable {
         // 4)
         sldrPwdLength.valueProperty().addListener( (observable, oldValue, newValue) -> {
             lblPwdLength.setText(String.valueOf(newValue.intValue()));
+            txtFldPassword.setText(passwordGenerator.generate(newValue.intValue()));
         });
 
     }
