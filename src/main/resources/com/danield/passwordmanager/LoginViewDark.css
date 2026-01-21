@@ -6,40 +6,40 @@
     -fx-background-color: transparent;
 }
 
-.scroll-bar > .thumb {
+.scroll-bar>.thumb {
     -fx-background-color: rgba(70, 70, 70, 1);
     -fx-padding: 0.5em;
 }
 
-.scroll-bar > .thumb:hover {
+.scroll-bar>.thumb:hover {
     -fx-background-color: rgba(85, 85, 85, 1);
 }
 
-.scroll-bar > .thumb:pressed {
+.scroll-bar>.thumb:pressed {
     -fx-background-color: rgba(105, 105, 105, 1);
 }
 
-.scroll-bar > .increment-button,
-.scroll-bar > .decrement-button {
-    -fx-background-color:transparent;
+.scroll-bar>.increment-button,
+.scroll-bar>.decrement-button {
+    -fx-background-color: transparent;
 }
 
-.scroll-bar > .increment-button > .increment-arrow,
-.scroll-bar > .decrement-button > .decrement-arrow {
+.scroll-bar>.increment-button>.increment-arrow,
+.scroll-bar>.decrement-button>.decrement-arrow {
     -fx-background-color: rgba(30, 30, 30, 1);
 }
 
-.scroll-bar > .increment-button:hover > .increment-arrow,
-.scroll-bar > .decrement-button:hover > .decrement-arrow {
+.scroll-bar>.increment-button:hover>.increment-arrow,
+.scroll-bar>.decrement-button:hover>.decrement-arrow {
     -fx-background-color: rgba(85, 85, 85, 1);
 }
 
-.scroll-bar > .increment-button:pressed > .increment-arrow,
-.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+.scroll-bar>.increment-button:pressed>.increment-arrow,
+.scroll-bar>.decrement-button:pressed>.decrement-arrow {
     -fx-background-color: rgba(120, 120, 120, 1);
 }
 
-#top-login-button {
+.button {
     -fx-font-family: "System";
     -fx-font-size: 12px;
     -fx-text-fill: rgba(200, 200, 200, 1);
@@ -47,87 +47,12 @@
     -fx-background-radius: 14px;
 }
 
-#top-new-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-new-button:hover {
+.button:hover {
     -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
     -fx-font-weight: bold;
 }
 
-#top-new-button:focused {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-}
-
-#top-save-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-close-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-quit-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-quit-button:hover {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#top-quit-button:focused {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-}
-
-#top-about-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-about-button:hover {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#top-about-button:focused {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-}
-
-#top-theme-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#top-theme-button:hover {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#top-theme-button:focused {
+.button:focused {
     -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
 }
 
@@ -136,19 +61,10 @@
     -fx-font-size: 64px;
     -fx-font-weight: bold;
     -fx-text-fill: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-effect: dropshadow( gaussian , rgba(0, 0, 0, 0.5) , 0,0,2,2 );
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 0, 0, 2, 2);
 }
 
-#file-location-field {
-    -fx-font-family: "System";
-    -fx-font-size: 14px;
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-prompt-text-fill: rgba(200, 200, 200, 1);
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-radius: 14px;
-}
-
-#password-field {
+#text-or-password-field {
     -fx-font-family: "System";
     -fx-font-size: 14px;
     -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
@@ -177,44 +93,8 @@
 
 #open-recent-combobox .list-cell:hover {
     -fx-font-weight: bold;
-    -fx-border-color:rgba(200, 200, 200, 1);
+    -fx-border-color: rgba(200, 200, 200, 1);
     -fx-border-radius: 14px;
-}
-
-#browse-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#browse-button:hover {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#browse-button:focused {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#login-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(200, 200, 200, 1);
-    -fx-background-color: linear-gradient(rgba(70, 70, 70, 1), rgba(10, 10, 10, 1));
-    -fx-background-radius: 14px;
-}
-
-#login-button:hover {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
-}
-
-#login-button:focused {
-    -fx-background-color: linear-gradient(rgba(10, 10, 10, 1), rgba(70, 70, 70, 1));
-    -fx-font-weight: bold;
 }
 
 #info-label {

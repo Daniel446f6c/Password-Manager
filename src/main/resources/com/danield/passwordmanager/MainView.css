@@ -2,7 +2,7 @@
     -fx-background-color: linear-gradient(rgba(0, 255, 255, 0.6), rgba(0, 200, 255, 0.6));
 }
 
-.split-pane > .split-pane-divider {
+.split-pane>.split-pane-divider {
     -fx-background-color: rgba(0, 180, 255, 0.6);
     -fx-padding: 2px;
 }
@@ -11,40 +11,40 @@
     -fx-background-color: transparent;
 }
 
-.scroll-bar > .thumb {
+.scroll-bar>.thumb {
     -fx-background-color: rgba(0, 170, 255, 0.6);
     -fx-padding: 0.5em;
 }
 
-.scroll-bar > .thumb:hover {
+.scroll-bar>.thumb:hover {
     -fx-background-color: rgba(0, 140, 255, 0.6);
 }
 
-.scroll-bar > .thumb:pressed {
+.scroll-bar>.thumb:pressed {
     -fx-background-color: rgba(0, 100, 255, 0.6);
 }
 
-.scroll-bar > .increment-button,
-.scroll-bar > .decrement-button {
+.scroll-bar>.increment-button,
+.scroll-bar>.decrement-button {
     -fx-background-color: transparent;
 }
 
-.scroll-bar > .increment-button > .increment-arrow,
-.scroll-bar > .decrement-button > .decrement-arrow {
+.scroll-bar>.increment-button>.increment-arrow,
+.scroll-bar>.decrement-button>.decrement-arrow {
     -fx-background-color: rgba(180, 0, 120, 0.8)
 }
 
-.scroll-bar > .increment-button:hover > .increment-arrow,
-.scroll-bar > .decrement-button:hover > .decrement-arrow {
+.scroll-bar>.increment-button:hover>.increment-arrow,
+.scroll-bar>.decrement-button:hover>.decrement-arrow {
     -fx-background-color: rgba(255, 0, 120, 0.8)
 }
 
-.scroll-bar > .increment-button:pressed > .increment-arrow,
-.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+.scroll-bar>.increment-button:pressed>.increment-arrow,
+.scroll-bar>.decrement-button:pressed>.decrement-arrow {
     -fx-background-color: rgba(255, 0, 40, 0.8)
 }
 
-#top-login-button {
+.button {
     -fx-font-family: "System";
     -fx-font-size: 12px;
     -fx-text-fill: rgba(0, 238, 255, 0.8);
@@ -52,114 +52,12 @@
     -fx-background-radius: 14px;
 }
 
-#top-login-button:hover {
+.button:hover {
     -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
     -fx-font-weight: bold;
 }
 
-#top-login-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-new-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-new-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-new-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-save-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-save-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-save-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-close-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-close-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-close-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-quit-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-quit-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-quit-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-about-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-about-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-about-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-}
-
-#top-theme-button {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: rgba(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-background-radius: 14px;
-}
-
-#top-theme-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#top-theme-button:focused {
+.button:focused {
     -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
 }
 
@@ -172,13 +70,13 @@
     -fx-background-color: transparent;
 }
 
-.table-view > .column-header-background {
+.table-view>.column-header-background {
     -fx-background-color: transparent;
 }
 
 .table-view .column-header,
 .table-view .filler,
-.table-view > .column-header-background > .show-hide-columns-button,
+.table-view>.column-header-background>.show-hide-columns-button,
 .table-view:constrained-resize .filler {
     -fx-background-color: transparent;
     -fx-size: 2em;
@@ -206,37 +104,13 @@
     -fx-background-color: rgba(0, 100, 255, 0.8);
 }
 
-#app-field {
+.text-field {
     -fx-font-family: "System";
     -fx-font-size: 14px;
     -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
     -fx-text-fill: rgb(0, 238, 255, 0.8);
     -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
     -fx-background-radius: 14px;
-}
-
-#username-field {
-    -fx-font-family: "System";
-    -fx-font-size: 14px;
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-background-radius: 14px;
-}
-
-#password-field {
-    -fx-font-family: "System";
-    -fx-font-size: 14px;
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
-    -fx-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-prompt-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-background-radius: 14px;
-}
-
-#pwd-length-label {
-    -fx-font-family: "System";
-    -fx-font-size: 12px;
-    -fx-text-fill: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
 }
 
 .slider .track {
@@ -252,37 +126,17 @@
 }
 
 #generate-button {
-    -fx-font-family: "System";
     -fx-font-size: 10px;
-    -fx-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
     -fx-background-radius: 14px;
 }
 
-#generate-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#generate-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
 #add-button {
-    -fx-font-family: "System";
     -fx-font-size: 16px;
-    -fx-text-fill: rgb(0, 238, 255, 0.8);
-    -fx-background-color: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
     -fx-background-radius: 16px;
 }
 
-#add-button:hover {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
-}
-
-#add-button:focused {
-    -fx-background-color: linear-gradient(rgba(180, 0, 120, 0.6), rgba(0, 0, 255, 0.6));
-    -fx-font-weight: bold;
+#pwd-length-label {
+    -fx-font-family: "System";
+    -fx-font-size: 12px;
+    -fx-text-fill: linear-gradient(rgba(0, 0, 255, 0.6), rgba(180, 0, 120, 0.6));
 }

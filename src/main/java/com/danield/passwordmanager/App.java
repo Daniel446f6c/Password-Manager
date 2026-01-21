@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 
 /**
  * The {@code App} class represents the entry point of the Application.
+ * 
  * @author Daniel D
  */
 public class App extends Application {
@@ -15,11 +16,11 @@ public class App extends Application {
     public static final String TITLE = "Password Manager";
     public static final double MIN_HEIGHT = 450.0;
     public static final double MIN_WIDTH = 475.0;
-    public static final String VERSION = "1.2.0";
+    public static final String VERSION = "1.2.1";
 
     @Override
     public void start(Stage stage) throws Exception {
-        
+
         Scene scene = new Scene(new Pane());
 
         ViewSwitcher.setScene(scene);
