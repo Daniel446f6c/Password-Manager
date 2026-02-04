@@ -1,5 +1,63 @@
-.vscode/*
-.project
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+
+# Eclipse / Java
 .classpath
-.settings
-target/*
+.project
+.settings/
+target/
+bin/
+.metadata
+
+# IntelliJ / Android Studio
+*.iml
+*.ipr
+*.iws
+.idea/
+.run/
+
+# Visual Studio Code
+.vscode/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+
+# Android
+android/**/*.pro
+android/**/*.jks
+android/local.properties
+android/gradlew
+android/gradlew.bat
+android/.gradle/
+android/app/src/main/assets/
+android/app/src/main/res/
+# But not these:
+!android/app/src/main/assets/public/
+!android/app/src/main/res/
+
+# Crypto / Security keys
+*.key
+*.keystore
+*.jks
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Gradle
+.gradle/

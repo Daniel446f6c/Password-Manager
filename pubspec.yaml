@@ -1,0 +1,35 @@
+name: kyowmi_x
+description: "KYOWMI-X Password Manager"
+publish_to: 'none'
+version: 1.0.0
+
+environment:
+  sdk: ^3.10.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  encrypt: ^5.0.3
+  crypto: ^3.0.6
+  path_provider: ^2.1.5
+  permission_handler: ^11.3.1
+  local_auth: ^2.3.0
+  uuid: ^4.5.1
+  pointycastle: ^3.9.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "assets/icon/icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#121212"
+  adaptive_icon_foreground: "assets/icon/icon.png"
+
+flutter:
+  uses-material-design: true

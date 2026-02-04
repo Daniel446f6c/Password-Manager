@@ -1,104 +1,75 @@
-# <b>Password Manager</b>
+# Password Manager ( KYOWMI-X )
 
-## <b>Description</b>
+Securely store and manage your passwords locally on your Android device.
 
-Securely store and manage your passwords local on your device.</br>
-Password Manager is a Standalone JavaFX Application build using Maven 3.9.9 .</br>
+## Features
 
-## <b>Getting Started</b>
+- 🔐 **AES-256-GCM Encryption** - Military-grade encryption with PBKDF2 key derivation
+- 🔑 **Master Password** - Single password to unlock your vault
+- 👆 **Fingerprint Unlock** - Optional biometric authentication for quick access
+- 🎲 **Password Generator** - Generate secure 14-character passwords with entropy indicator
+- 🌙 **Dark Theme** - Easy on the eyes, always
+- 💾 **Local Storage** - All data stays on your device in shared storage
 
-### <b>On WINDOWS using Installer (recommended)</b>
+## Getting Started
 
-1. Download the latest installer "Password Manager-x.x.x.exe"
-2. Double-click it and follow the instructions
+### Requirements
 
-### <b>On UBUNTU/DEBIAN LINUX using Installer (recommended)</b>
+- Android 8.0+ (API 26+)
+- Flutter SDK 3.10+
 
-1. Download the latest installer "password-manager_x.x.x-1_amd64.deb"
-2. Double-click it and follow the instructions
+### Build & Run
 
-### <b>On WINDOWS without Installer</b>
+```bash
+# Get dependencies
+flutter pub get
 
-1. Download the lastest zip archive "Password Manager-x.x.x-windows.zip"
-2. Unzip "Password-Manager-x.x.x-windows.zip"
-3. Navigate to the "bin" directory
-4. Double-click "run.bat"
+# Run on connected device/emulator
+flutter run
 
-### <b>On UBUNTU/DEBIAN LINUX without Installer</b>
+# Build release APK
+flutter build apk --release
+```
 
-1. Download the latest zip archive "Password Manager-x.x.x-linux.zip"
-2. Unzip "Password-Manager-x.x.x-linux.zip"
-3. Navigate to the "bin" directory
-4. Open bash and type "./run"
+### Output APK
 
-## <b>Build Dependencies</b>
+After building, the release APK will be at:
+```
+build/app/outputs/flutter-apk/app-release.apk
+```
 
-* Java 17
-    * JavaFX 17
+## Project Structure
 
-* Maven 3.9.7 or greater
-    * Maven Plugins:</br>
-        * maven-compiler-plugin</br>
-        * jpackage-maven-plugin</br>
-        * javafx-maven-plugin</br>
+```
+lib/
+├── main.dart                    # App entry point
+├── models/
+│   └── credential.dart          # Password entry model
+├── services/
+│   ├── crypto_service.dart      # AES-256-GCM encryption
+│   ├── storage_service.dart     # .privVaultv2 file operations
+│   ├── password_generator.dart  # Secure password generation
+│   └── biometric_service.dart   # Fingerprint authentication
+├── screens/
+│   ├── login_screen.dart        # Master password login
+│   ├── create_vault_screen.dart # New vault creation
+│   └── home_screen.dart         # Credentials list
+└── theme/
+    └── app_theme.dart           # Dark theme configuration
+```
 
-* WiX 3.0 or greater (requiered by jpackage)
+## Security
 
-* fakeroot (requiered by jpackage on ubuntu/debian linux)
+- **Encryption**: AES-256-GCM with 96-bit IV
+- **Key Derivation**: PBKDF2-HMAC-SHA256 with 40,000 iterations
+- **Password Verification**: SHA-256 hash stored at file header
+- **Storage**: Files stored in `Documents/PasswordManager/` with `.privVaultv2` extension
 
-## <b>How to build</b>
+## License
 
-<b>IMPORTANT:</b> to build from source you need to install the required build dependencies on your machine.
+This project is licensed under the GNU General Public License v3 - see the LICENSE file for details.
 
-### <b>Windows Installer</b>
-````
-mvn clean -Pwindows javafx:jlink jpackage:jpackage
-````
-Output: "Password Manager/target/dist/Password Manager-x.x.x.exe"
+## Author
 
-### <b>Ubuntu/Debian Linux Installer</b>
-````
-mvn clean -Plinux javafx:jlink jpackage:jpackage
-````
-Output: "Password Manager/target/dist/password-manager_x.x.x-1_amd64.deb"
-
-### <b>Windows Portable Zip Archive</b>
-````
-mvn clean -Pwindows javafx:jlink
-````
-Output: "Password Manager/target/Password Manager-x.x.x-windows.zip"
-
-### <b>Ubuntu/Debian Linux Portable Zip Archive</b>
-````
-mvn clean -Plinux javafx:jlink
-````
-Output: "Password Manager/target/Password Manager-x.x.x-linux.zip"
-
-## <b>Help</b>
-
-If your encounter any bugs or security issues feel free to contact me.
-
-## <b>Authors</b>
-
-Daniel D
+Daniel D  
 [@Github](https://github.com/Daniel446f6c/)
-
-## <b>Version History</b>
-
-* 1.2.0
-    * Added Ubuntu/Debian Linux Support
-    * Added Scrollbar & Table Styling
-    * Set Dark Theme as Default
-<br><br>
-
-* 1.1.0
-    * Added "Open Recent" Control
-    * Some Minor Cosmetic Changes
-<br><br>
-
-* 1.0.0
-    * Initial Release
-
-## <b>License</b>
-
-This project is licensed under the GNU General Public License v3  - see the LICENSE file for details
