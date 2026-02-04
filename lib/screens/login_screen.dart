@@ -76,7 +76,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomeScreen(masterPassword: password),
+            builder: (_) => HomeScreen(
+              masterPassword: password,
+              vaultPath: _storageService.currentVaultPath!,
+            ),
           ),
         );
       } else {
@@ -111,7 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (_) => HomeScreen(masterPassword: cachedPassword),
+            builder: (_) => HomeScreen(
+              masterPassword: cachedPassword,
+              vaultPath: _storageService.currentVaultPath!,
+            ),
           ),
         );
       } else {

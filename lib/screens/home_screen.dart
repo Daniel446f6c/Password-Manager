@@ -11,8 +11,13 @@ import 'login_screen.dart';
 /// Home screen displaying the list of credentials with CRUD operations.
 class HomeScreen extends StatefulWidget {
   final String masterPassword;
+  final String vaultPath;
 
-  const HomeScreen({super.key, required this.masterPassword});
+  const HomeScreen({
+    super.key,
+    required this.masterPassword,
+    required this.vaultPath,
+  });
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -30,7 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _loadCredentials();
+    _initStorageAndLoad();
+  }
+
+  Future<void> _initStorageAndLoad() async {
+    // Initialize storage with the correct path passed from Login
+    await _storageService.setVaultPath(widget.vaultPath);
+    await _loadCredentials();
   }
 
   Future<void> _loadCredentials() async {
@@ -54,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  /// Auto-save credentials silently
   Future<void> _saveCredentials() async {
     try {
       await _storageService.saveCredentials(
@@ -61,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
         widget.masterPassword,
       );
     } catch (e) {
-      _showError('Failed to save credentials');
+      _showError('Failed to save changes');
     }
   }
 
@@ -104,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
               setState(() {
                 _credentials.removeWhere((c) => c.id == credential.id);
               });
-              _saveCredentials();
+              _saveCredentials(); // Auto-save
               _showSuccess('Credential deleted');
             },
             child: Text('Delete', style: TextStyle(color: AppTheme.errorColor)),
@@ -264,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     }
                   });
 
-                  _saveCredentials();
+                  _saveCredentials(); // Auto-save
                   _showSuccess(
                     isEditing ? 'Credential updated' : 'Credential added',
                   );
@@ -380,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           confirmDismiss: (direction) async {
             _deleteCredential(credential);
-            return false; // We handle deletion ourselves
+            return false; // We handle deletion manually
           },
           child: Card(
             margin: const EdgeInsets.only(bottom: 12),
