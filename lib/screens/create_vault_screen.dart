@@ -12,6 +12,7 @@ class CreateVaultScreen extends StatefulWidget {
 }
 
 class _CreateVaultScreenState extends State<CreateVaultScreen> {
+  final _filenameController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmController = TextEditingController();
   final _storageService = StorageService();
@@ -23,10 +24,16 @@ class _CreateVaultScreenState extends State<CreateVaultScreen> {
   bool _vaultCreated = false;
 
   Future<void> _createVault() async {
+    final filename = _filenameController.text.trim();
     final password = _passwordController.text;
     final confirm = _confirmController.text;
 
-    // Validation - min 8 characters
+    if (filename.isEmpty) {
+      setState(() => _errorMessage = 'Please enter a vault name');
+      return;
+    }
+
+    // Validations
     if (password.length < 8) {
       setState(() => _errorMessage = 'Password must be at least 8 characters');
       return;
@@ -43,7 +50,6 @@ class _CreateVaultScreenState extends State<CreateVaultScreen> {
     });
 
     try {
-      // Request permissions first
       final hasPermission = await _storageService.requestStoragePermission();
       if (!hasPermission) {
         setState(() {
@@ -53,7 +59,27 @@ class _CreateVaultScreenState extends State<CreateVaultScreen> {
         return;
       }
 
-      await _storageService.createVault(password);
+      // 1. Determine target directory (Default or User Chosen)
+      // For now, using your default app directory logic:
+      final targetDir = await _storageService.getAppDirectoryPath();
+
+      // 2. CHECK IF FILE EXISTS IN THAT SPECIFIC FOLDER
+      final alreadyExists = await _storageService.checkVaultExistsAtPath(
+        targetDir,
+        filename,
+      );
+
+      if (alreadyExists) {
+        setState(() {
+          _errorMessage =
+              'A file named "$filename.pVv2" already exists in this folder.';
+          _isLoading = false;
+        });
+        return;
+      }
+
+      // 3. Create the vault
+      await _storageService.createVault(password, filename);
 
       if (mounted) {
         setState(() {
@@ -137,6 +163,28 @@ class _CreateVaultScreenState extends State<CreateVaultScreen> {
         ),
 
         const SizedBox(height: 40),
+
+        // Filename field
+        TextField(
+          controller: _filenameController,
+          decoration: InputDecoration(
+            labelText: 'Vault Name',
+            hintText: 'Enter vault name',
+            prefixIcon: const Icon(Icons.lock_outline),
+            suffixIcon: IconButton(
+              icon: Icon(
+                _obscurePassword
+                    ? Icons.visibility_outlined
+                    : Icons.visibility_off_outlined,
+              ),
+              onPressed: () {
+                setState(() => _obscurePassword = !_obscurePassword);
+              },
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 16),
 
         // Password field
         TextField(
@@ -228,7 +276,7 @@ class _CreateVaultScreenState extends State<CreateVaultScreen> {
               const SizedBox(width: 12),
               Expanded(
                 child: Text(
-                  'Creating a new vault will replace any existing vault data.',
+                  'Creating a new vault may take a few seconds.',
                   style: TextStyle(
                     color: const Color.fromRGBO(207, 102, 121, 0.9),
                     fontSize: 13,

@@ -2,22 +2,67 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/credential.dart';
 import 'crypto_service.dart';
 
-/// Handles .privVaultv2 file operations in shared storage.
+/// Handles .pVv2 file operations in shared storage.
 class StorageService {
-  static const String _vaultFileName = 'passwords.privVaultv2';
+  static const String _defaultVaultFileName = 'passwords.pVv2';
   static const String _appFolderName = 'KYOWMI-X';
+  static const String _prefsKeyLastVaultPath = 'last_vault_path';
 
   final CryptoService _crypto = CryptoService();
+  String? _currentVaultPath;
+
+  /// Get the currently active vault path
+  String? get currentVaultPath => _currentVaultPath;
+
+  /// Initialize service: load last used vault path
+  Future<void> init() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lastPath = prefs.getString(_prefsKeyLastVaultPath);
+
+    if (lastPath != null && await File(lastPath).exists()) {
+      _currentVaultPath = lastPath;
+    } else {
+      // If last path invalid or missing, prep default path but don't create yet
+      _currentVaultPath = await _getDefaultVaultPath();
+    }
+  }
+
+  /// Check if a vault with this name already exists at a specific directory path
+  Future<bool> checkVaultExistsAtPath(
+    String directoryPath,
+    String filename,
+  ) async {
+    if (filename.trim().isEmpty) return false;
+
+    String cleanName = filename.trim();
+    if (!cleanName.endsWith('.pVv2')) {
+      cleanName += '.pVv2';
+    }
+
+    final file = File('$directoryPath/$cleanName');
+    return await file.exists();
+  }
+
+  /// Helper to get the default directory path used by the app
+  Future<String> getAppDirectoryPath() async {
+    if (Platform.isAndroid) {
+      return '/storage/emulated/0/Documents/$_appFolderName';
+    } else {
+      final directory = await getApplicationDocumentsDirectory();
+      return directory.path;
+    }
+  }
 
   /// Request and check storage permissions
   Future<bool> requestStoragePermission() async {
-    // For Android 11+ (API 30+), use MANAGE_EXTERNAL_STORAGE
     if (Platform.isAndroid) {
       final status = await Permission.manageExternalStorage.request();
       if (status.isGranted) return true;
@@ -29,79 +74,146 @@ class StorageService {
     return true;
   }
 
-  /// Get the vault file path in Documents folder
-  Future<File> _getVaultFile() async {
+  /// Get default path in Documents folder
+  Future<String> _getDefaultVaultPath() async {
     Directory? directory;
-
     if (Platform.isAndroid) {
-      // Use Documents folder for persistence across reinstalls
       directory = Directory('/storage/emulated/0/Documents/$_appFolderName');
     } else {
-      // Fallback for other platforms
       directory = await getApplicationDocumentsDirectory();
     }
 
-    // Create app folder if it doesn't exist
     if (!await directory.exists()) {
       await directory.create(recursive: true);
     }
 
-    return File('${directory.path}/$_vaultFileName');
+    return '${directory.path}/$_defaultVaultFileName';
   }
 
-  /// Check if a vault file already exists
+  /// Get current working file
+  File _getVaultFile() {
+    if (_currentVaultPath == null) {
+      throw Exception('Vault path not initialized');
+    }
+    return File(_currentVaultPath!);
+  }
+
+  /// Pick a vault file from system storage
+  Future<bool> pickVaultFile() async {
+    try {
+      // On Android, filtering by custom extension .pVv2 often fails
+      // because the OS doesn't know the MIME type. Using FileType.any is safer.
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.any,
+      );
+
+      if (result != null && result.files.single.path != null) {
+        final path = result.files.single.path!;
+
+        // Manual extension check
+        if (!path.endsWith('.pVv2')) {
+          print('Error: Selected file is not a .pVv2 file');
+          return false;
+        }
+
+        await setVaultPath(path);
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Error picking file: $e');
+      return false;
+    }
+  }
+
+  /// Set the current vault path and persist valid ones
+  Future<void> setVaultPath(String path) async {
+    if (await File(path).exists()) {
+      _currentVaultPath = path;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString(_prefsKeyLastVaultPath, path);
+    }
+  }
+
+  /// Check if a vault exists at current path
   Future<bool> vaultExists() async {
-    final file = await _getVaultFile();
-    return file.exists();
+    if (_currentVaultPath == null) return false;
+    return File(_currentVaultPath!).exists();
   }
 
-  /// Get the vault file path (for display purposes)
-  Future<String> getVaultPath() async {
-    final file = await _getVaultFile();
-    return file.path;
-  }
+  /// Create a new vault at default location (or update current if set)
+  /// [customFilename] allows specifying a custom name (without extension)
+  Future<void> createVault(String password, String customFilename) async {
+    File file;
 
-  /// Create a new vault with the given master password
-  Future<void> createVault(String password) async {
-    final file = await _getVaultFile();
+    if (customFilename.trim().isNotEmpty) {
+      // Ensure file extension
+      String filename = customFilename.trim();
+      if (!filename.endsWith('.pVv2')) {
+        filename += '.pVv2';
+      }
 
-    // Store password hash at the beginning of the file
+      // Get directory
+      Directory directory;
+      if (Platform.isAndroid) {
+        directory = Directory('/storage/emulated/0/Documents/$_appFolderName');
+      } else {
+        directory = await getApplicationDocumentsDirectory();
+      }
+
+      if (!await directory.exists()) {
+        await directory.create(recursive: true);
+      }
+
+      file = File('${directory.path}/$filename');
+    } else {
+      // Default behavior
+      if (_currentVaultPath == null ||
+          !await File(_currentVaultPath!).exists()) {
+        _currentVaultPath = await _getDefaultVaultPath();
+      }
+      file = _getVaultFile();
+    }
+
+    // Store password hash
     final passwordHash = _crypto.hashPassword(password);
 
-    // Empty credentials list encrypted
+    // Empty encrypted credentials
     final emptyData = _crypto.encrypt('[]', password);
 
-    // Write: [hash (32 bytes)][encrypted data]
-    final fullData = Uint8List(passwordHash.length + emptyData.length);
-    fullData.setRange(0, passwordHash.length, passwordHash);
-    fullData.setRange(passwordHash.length, fullData.length, emptyData);
+    // Write: [hash][data]
+    final bytes = BytesBuilder();
+    bytes.add(passwordHash);
+    bytes.add(emptyData);
 
-    await file.writeAsBytes(fullData);
+    await file.writeAsBytes(bytes.toBytes());
+
+    // Persist this path as the active one
+    await setVaultPath(file.path);
   }
 
-  /// Validate the master password against the stored hash
+  /// Validate password
   Future<bool> validatePassword(String password) async {
-    final file = await _getVaultFile();
+    if (!await vaultExists()) return false;
 
-    if (!await file.exists()) return false;
-
+    final file = _getVaultFile();
     final data = await file.readAsBytes();
+
     if (data.length < CryptoService.hashByteLength) return false;
 
     final storedHash = data.sublist(0, CryptoService.hashByteLength);
     return _crypto.verifyPassword(password, storedHash);
   }
 
-  /// Load and decrypt credentials from the vault
+  /// Load credentials
   Future<List<Credential>> loadCredentials(String password) async {
-    final file = await _getVaultFile();
+    if (!await vaultExists()) return [];
 
-    if (!await file.exists()) return [];
-
+    final file = _getVaultFile();
     final data = await file.readAsBytes();
+
     if (data.length <= CryptoService.hashByteLength) return [];
 
-    // Extract encrypted data (skip hash)
     final encryptedData = data.sublist(CryptoService.hashByteLength);
 
     try {
@@ -109,41 +221,37 @@ class StorageService {
       final List<dynamic> jsonList = json.decode(jsonString);
       return jsonList.map((item) => Credential.fromJson(item)).toList();
     } catch (e) {
-      // Decryption failed - wrong password or corrupted data
       return [];
     }
   }
 
-  /// Encrypt and save credentials to the vault
+  /// Save credentials
   Future<void> saveCredentials(
     List<Credential> credentials,
     String password,
   ) async {
-    final file = await _getVaultFile();
+    final file = _getVaultFile();
 
-    // Serialize credentials to JSON
     final jsonList = credentials.map((c) => c.toJson()).toList();
     final jsonString = json.encode(jsonList);
 
-    // Get password hash
     final passwordHash = _crypto.hashPassword(password);
-
-    // Encrypt credentials
     final encryptedData = _crypto.encrypt(jsonString, password);
 
-    // Write: [hash (32 bytes)][encrypted data]
-    final fullData = Uint8List(passwordHash.length + encryptedData.length);
-    fullData.setRange(0, passwordHash.length, passwordHash);
-    fullData.setRange(passwordHash.length, fullData.length, encryptedData);
+    final bytes = BytesBuilder();
+    bytes.add(passwordHash);
+    bytes.add(encryptedData);
 
-    await file.writeAsBytes(fullData);
+    await file.writeAsBytes(bytes.toBytes());
   }
 
-  /// Delete the vault file
+  /// Delete current vault
   Future<void> deleteVault() async {
-    final file = await _getVaultFile();
-    if (await file.exists()) {
-      await file.delete();
+    if (await vaultExists()) {
+      await _getVaultFile().delete();
+      _currentVaultPath = null;
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_prefsKeyLastVaultPath);
     }
   }
 }
