@@ -22,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = true; // Start loading to init storage
   bool _obscurePassword = true;
   bool _biometricAvailable = false;
+  bool _vaultExists = false;
   String? _errorMessage;
 
   @override
@@ -34,9 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
     await _storageService.requestStoragePermission();
     await _storageService.init();
     await _checkBiometric();
+    await _checkVaultStatus();
 
     if (mounted) {
       setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _checkVaultStatus() async {
+    final exists = await _storageService.vaultExists();
+    if (mounted) {
+      setState(() => _vaultExists = exists);
     }
   }
 
@@ -137,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final success = await _storageService.pickVaultFile();
     if (success && mounted) {
       await _storageService.init(); // Reload current path
+      await _checkVaultStatus(); // Re-check vault status
       setState(() {
         _passwordController.clear();
         _errorMessage = null;
@@ -156,7 +166,9 @@ class _LoginScreenState extends State<LoginScreen> {
       context,
       MaterialPageRoute(builder: (_) => const CreateVaultScreen()),
     ).then((_) {
-      if (mounted) setState(() {});
+      if (mounted) {
+        _checkVaultStatus(); // Re-check after possible creation
+      }
     });
   }
 
@@ -172,226 +184,216 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: _isLoading
             ? const Center(child: CircularProgressIndicator())
-            : FutureBuilder<bool>(
-                future: _storageService.vaultExists(),
-                builder: (context, snapshot) {
-                  final vaultExists = snapshot.data ?? false;
-                  final currentPath = _storageService.currentVaultPath;
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: 40),
 
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        const SizedBox(height: 40),
-
-                        // App icon
-                        Container(
-                          width: 100,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            gradient: AppTheme.primaryGradient,
-                            borderRadius: BorderRadius.circular(24),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color.fromRGBO(108, 99, 255, 0.3),
-                                blurRadius: 20,
-                                offset: const Offset(0, 10),
-                              ),
-                            ],
+                    // App icon
+                    Container(
+                      width: 100,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        gradient: AppTheme.primaryGradient,
+                        borderRadius: BorderRadius.circular(24),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color.fromRGBO(108, 99, 255, 0.3),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
                           ),
-                          child: const Icon(
-                            Icons.lock_outline,
-                            size: 50,
-                            color: Colors.white,
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.lock_outline,
+                        size: 50,
+                        color: Colors.white,
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
+
+                    // Title
+                    Text(
+                      'KYOWMI-X',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    if (_storageService.currentVaultPath != null)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          _vaultExists
+                              ? 'Vault: ...${_getFilename(_storageService.currentVaultPath!)}'
+                              : 'Vault not found at path',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppTheme.textSecondary,
+                            fontFamily: 'monospace',
+                          ),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+
+                    const SizedBox(height: 40),
+
+                    if (_vaultExists) ...[
+                      // Password field
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: _obscurePassword,
+                        autofocus: true,
+                        decoration: InputDecoration(
+                          labelText: 'Master Password',
+                          prefixIcon: const Icon(Icons.lock_outline),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _obscurePassword
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
+                            ),
+                            onPressed: () {
+                              setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              );
+                            },
                           ),
                         ),
+                        onSubmitted: (_) => _login(),
+                      ),
 
-                        const SizedBox(height: 32),
-
-                        // Title
+                      if (_errorMessage != null) ...[
+                        const SizedBox(height: 12),
                         Text(
-                          'KYOWMI-X',
-                          style: Theme.of(context).textTheme.headlineLarge,
+                          _errorMessage!,
+                          style: TextStyle(
+                            color: AppTheme.errorColor,
+                            fontSize: 14,
+                          ),
                           textAlign: TextAlign.center,
+                        ),
+                      ],
+
+                      const SizedBox(height: 24),
+
+                      // Login button
+                      ElevatedButton(
+                        onPressed: _isLoading ? null : _login,
+                        child: _isLoading
+                            ? const SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.white,
+                                ),
+                              )
+                            : const Text('Unlock'),
+                      ),
+
+                      // Fingerprint button
+                      if (_biometricAvailable) ...[
+                        const SizedBox(height: 24),
+
+                        const Row(
+                          children: [
+                            Expanded(child: Divider()),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                'or',
+                                style: TextStyle(color: AppTheme.textSecondary),
+                              ),
+                            ),
+                            Expanded(child: Divider()),
+                          ],
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        Center(
+                          child: InkWell(
+                            onTap: _isLoading ? null : _biometricLogin,
+                            borderRadius: BorderRadius.circular(40),
+                            child: Container(
+                              width: 80,
+                              height: 80,
+                              decoration: BoxDecoration(
+                                color: AppTheme.surfaceColor,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: const Color.fromRGBO(
+                                    108,
+                                    99,
+                                    255,
+                                    0.5,
+                                  ),
+                                  width: 2,
+                                ),
+                              ),
+                              child: const Icon(
+                                Icons.fingerprint,
+                                size: 40,
+                                color: AppTheme.primaryColor,
+                              ),
+                            ),
+                          ),
                         ),
 
                         const SizedBox(height: 8),
 
-                        if (currentPath != null)
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16),
-                            child: Text(
-                              vaultExists
-                                  ? 'Vault: ...${_getFilename(currentPath)}'
-                                  : 'Vault not found at path',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: AppTheme.textSecondary,
-                                fontFamily: 'monospace',
-                              ),
-                              textAlign: TextAlign.center,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
+                        Text(
+                          'Use fingerprint',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ] else ...[
+                      // Create vault button
+                      ElevatedButton(
+                        onPressed: _navigateToCreate,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppTheme.primaryColor,
+                        ),
+                        child: const Text('Create New Vault'),
+                      ),
+                    ],
 
-                        const SizedBox(height: 40),
+                    const SizedBox(height: 24),
 
-                        if (vaultExists) ...[
-                          // Password field
-                          TextField(
-                            controller: _passwordController,
-                            obscureText: _obscurePassword,
-                            autofocus: true,
-                            decoration: InputDecoration(
-                              labelText: 'Master Password',
-                              prefixIcon: const Icon(Icons.lock_outline),
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  _obscurePassword
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                ),
-                                onPressed: () {
-                                  setState(
-                                    () => _obscurePassword = !_obscurePassword,
-                                  );
-                                },
-                              ),
-                            ),
-                            onSubmitted: (_) => _login(),
-                          ),
-
-                          if (_errorMessage != null) ...[
-                            const SizedBox(height: 12),
-                            Text(
-                              _errorMessage!,
-                              style: TextStyle(
-                                color: AppTheme.errorColor,
-                                fontSize: 14,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-
-                          const SizedBox(height: 24),
-
-                          // Login button
-                          ElevatedButton(
-                            onPressed: _isLoading ? null : _login,
-                            child: _isLoading
-                                ? const SizedBox(
-                                    width: 24,
-                                    height: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : const Text('Unlock'),
-                          ),
-
-                          // Fingerprint button
-                          if (_biometricAvailable) ...[
-                            const SizedBox(height: 24),
-
-                            const Row(
-                              children: [
-                                Expanded(child: Divider()),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Text(
-                                    'or',
-                                    style: TextStyle(
-                                      color: AppTheme.textSecondary,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(child: Divider()),
-                              ],
-                            ),
-
-                            const SizedBox(height: 24),
-
-                            Center(
-                              child: InkWell(
-                                onTap: _isLoading ? null : _biometricLogin,
-                                borderRadius: BorderRadius.circular(40),
-                                child: Container(
-                                  width: 80,
-                                  height: 80,
-                                  decoration: BoxDecoration(
-                                    color: AppTheme.surfaceColor,
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: const Color.fromRGBO(
-                                        108,
-                                        99,
-                                        255,
-                                        0.5,
-                                      ),
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: const Icon(
-                                    Icons.fingerprint,
-                                    size: 40,
-                                    color: AppTheme.primaryColor,
-                                  ),
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(height: 8),
-
-                            Text(
-                              'Use fingerprint',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ] else ...[
-                          // Create vault button
-                          ElevatedButton(
+                    // Secondary actions
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (_vaultExists)
+                          TextButton(
                             onPressed: _navigateToCreate,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppTheme.primaryColor,
-                            ),
-                            child: const Text('Create New Vault'),
+                            child: const Text('New'),
                           ),
-                        ],
 
-                        const SizedBox(height: 24),
+                        if (_vaultExists) const SizedBox(width: 16),
 
-                        // Secondary actions
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            if (vaultExists)
-                              TextButton(
-                                onPressed: _navigateToCreate,
-                                child: const Text('New'),
-                              ),
-
-                            if (vaultExists) const SizedBox(width: 16),
-
-                            OutlinedButton.icon(
-                              onPressed: _openVaultFile,
-                              icon: const Icon(Icons.folder_open, size: 18),
-                              label: const Text('Open File'),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: AppTheme.textPrimary,
-                                side: const BorderSide(
-                                  color: AppTheme.textSecondary,
-                                ),
-                              ),
+                        OutlinedButton.icon(
+                          onPressed: _openVaultFile,
+                          icon: const Icon(Icons.folder_open, size: 18),
+                          label: const Text('Open File'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppTheme.textPrimary,
+                            side: const BorderSide(
+                              color: AppTheme.textSecondary,
                             ),
-                          ],
+                          ),
                         ),
                       ],
                     ),
-                  );
-                },
+                  ],
+                ),
               ),
       ),
     );

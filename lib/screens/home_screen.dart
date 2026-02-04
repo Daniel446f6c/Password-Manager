@@ -336,10 +336,12 @@ class _HomeScreenState extends State<HomeScreen> {
           : _credentials.isEmpty
           ? _buildEmptyState()
           : _buildCredentialsList(),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _addCredential,
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: _isLoading
+          ? null
+          : FloatingActionButton(
+              onPressed: _addCredential,
+              child: const Icon(Icons.add),
+            ),
     );
   }
 

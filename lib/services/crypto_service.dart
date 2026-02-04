@@ -2,31 +2,41 @@ import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:crypto/crypto.dart';
+import 'package:argon2/argon2.dart';
 import 'package:encrypt/encrypt.dart';
-import 'package:pointycastle/export.dart' as pc;
 
-/// Hardened CryptoService providing AES-256-GCM encryption and SHA-256 hashing.
-/// Uses PointyCastle for verified PBKDF2 key derivation.
+/// Hardened CryptoService providing AES-256-GCM encryption and Argon2id hashing.
+/// Uses Argon2id for both password verification and key derivation.
 class CryptoService {
-  static const int _keyBitLength = 256;
   static const int _ivByteLength = 12; // 96 bits for GCM
-  static const int _hashByteLength = 32; // SHA-256 output
-  static const int _pbkdfIterations = 580000;
+  // Hash format: [salt (16 bytes)] + [hash (32 bytes)] = 48 bytes
   static const int _saltLength = 16;
+  static const int _hashLength = 32;
+  static const int _hashByteLength = _saltLength + _hashLength;
 
-  /// Generate a SHA-256 hash of the password for verification
+  // Argon2 Configuration
+  static const int _argon2Iterations = 3; // Time cost
+  static const int _argon2Memory = 256 * 1024; // Memory cost (256 MB)
+  static const int _argon2KeyLength = 32; // 256 bits
+
+  /// Generate an Argon2id hash of the password for verification
+  /// Returns: [salt (16 bytes)][hash (32 bytes)]
   Uint8List hashPassword(String password) {
-    final bytes = utf8.encode(password);
-    final digest = sha256.convert(bytes);
-    return Uint8List.fromList(digest.bytes);
+    final salt = _generateSalt();
+    final hash = _argon2id(password, salt, _hashLength);
+    return Uint8List.fromList([...salt, ...hash]);
   }
 
-  /// Verify password against stored hash using constant-time comparison
-  bool verifyPassword(String password, Uint8List storedHash) {
-    final computedHash = hashPassword(password);
-    if (computedHash.length != storedHash.length) return false;
+  /// Verify password against stored [salt][hash] data
+  bool verifyPassword(String password, Uint8List storedData) {
+    if (storedData.length != _hashByteLength) return false;
 
+    final salt = storedData.sublist(0, _saltLength);
+    final storedHash = storedData.sublist(_saltLength);
+
+    final computedHash = _argon2id(password, salt, _hashLength);
+
+    // Constant-time comparison
     int result = 0;
     for (int i = 0; i < computedHash.length; i++) {
       result |= computedHash[i] ^ storedHash[i];
@@ -34,17 +44,27 @@ class CryptoService {
     return result == 0;
   }
 
-  /// Derive a 256-bit key using verified PointyCastle PBKDF2 implementation
-  Uint8List _deriveKey(String password, Uint8List salt) {
-    // Set up PBKDF2 with HMAC-SHA256
-    final derivator = pc.PBKDF2KeyDerivator(pc.HMac(pc.SHA256Digest(), 64));
-
-    // Initialize with salt, iterations, and desired key length (32 bytes = 256 bits)
-    derivator.init(
-      pc.Pbkdf2Parameters(salt, _pbkdfIterations, _keyBitLength ~/ 8),
+  /// Internal Argon2id implementation
+  Uint8List _argon2id(String password, Uint8List salt, int length) {
+    final parameters = Argon2Parameters(
+      Argon2Parameters.ARGON2_id,
+      salt,
+      version: Argon2Parameters.ARGON2_VERSION_13,
+      iterations: _argon2Iterations,
+      memory: _argon2Memory,
     );
 
-    return derivator.process(Uint8List.fromList(utf8.encode(password)));
+    final argon2 = Argon2BytesGenerator();
+    argon2.init(parameters);
+
+    final result = Uint8List(length);
+    argon2.generateBytes(utf8.encode(password), result, 0, result.length);
+    return result;
+  }
+
+  /// Derive a 256-bit key using Argon2id
+  Uint8List _deriveKey(String password, Uint8List salt) {
+    return _argon2id(password, salt, _argon2KeyLength);
   }
 
   /// Generate a random salt using a cryptographically secure generator
